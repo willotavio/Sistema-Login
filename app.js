@@ -38,6 +38,25 @@ app.post('/login', async (req, res) => {
 app.get('/cadastro', (req, res) => {
     res.sendFile(__dirname + '/public/signup.html');
 })
+app.post('/cadastro', (req, res) => {
+    const userName = req.body.userName;
+    const userEmail = req.body.userEmail;
+    const userPassword = req.body.userPassword;
+
+    control.signup(userName, userEmail, userPassword)
+    .then((result) => {
+        if(result){
+            console.log("cadastro concluido!");
+            res.redirect('/login');
+        }
+        else{
+            res.send("email já cadastrado!");
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+})
 
 app.listen('3000', () => {
     console.log("conectado ao servidor");
