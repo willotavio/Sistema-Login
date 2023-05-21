@@ -1,22 +1,34 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const path = require('path');
 
 const control = require('./control');
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(express.json());
 app.use(express.urlencoded({ 
     extended: true 
 }));
+app.use(session({
+    secret: 'paracansei',
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/home.html');
+    if(req.session.userEmail){
+        res.sendFile(__dirname + '/public/home.html');    
+    }
+    else{
+        res.redirect('/login');
+    }
 })
 
 app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/public/login.html');
+    if(req.session.userEmail == undefined){
+        res.sendFile(__dirname + '/public/login.html');
+    }
 })
 app.post('/login', async (req, res) => {
     const userEmail = req.body.userEmail;
@@ -24,6 +36,7 @@ app.post('/login', async (req, res) => {
     await control.login(userEmail, userPassword)
         .then((result) => {
             if(result){
+                req.session.userEmail = userEmail;
                 res.redirect('/');
             }
             else{
@@ -36,7 +49,9 @@ app.post('/login', async (req, res) => {
 })
 
 app.get('/cadastro', (req, res) => {
-    res.sendFile(__dirname + '/public/signup.html');
+    if(req.session.userEmail == undefined){
+        res.sendFile(__dirname + '/public/signup.html');
+    }
 })
 app.post('/cadastro', (req, res) => {
     const userName = req.body.userName;
@@ -56,6 +71,12 @@ app.post('/cadastro', (req, res) => {
     .catch((err) => {
         console.log(err);
     })
+})
+
+app.post('/logout', (req, res) => {
+    console.log("deslogando...");
+    req.session.destroy();
+    res.redirect('/login');
 })
 
 app.listen('3000', () => {

@@ -1,0 +1,9 @@
+CREATE DATABASE apitest;
+USE apitest;
+
+CREATE TABLE user(
+	userId INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	userName VARCHAR(90) NOT NULL,
+	userEmail VARCHAR(90) NOT NULL,
+    userPassword VARCHAR(90) NOT NULL
+);

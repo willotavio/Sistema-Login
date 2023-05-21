@@ -4,7 +4,7 @@ let connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "root",
-    database: "sistemapika"
+    database: "apitest"
 });
 
 module.exports = connection;
