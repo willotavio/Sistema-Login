@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+main{
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+.navBar button{
+    float: right;
+}
+button{
+    background-color: rgb(117, 79, 255);
+    color: white;
+    border: 0;
+    padding: 0.5rem;
+    width: 5rem;
+}
+button:hover{
+    opacity: 90%;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    padding: 1rem;
+}
+form input{
+    width: 70%;
+    height: 2rem;
+    border: 0;
+    border-bottom: 0.1rem solid black;
+}
+form *{
+    margin: 0.5rem;
+}
+form input:focus{
+    outline: none;
+}
