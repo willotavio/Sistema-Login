@@ -1,18 +1,13 @@
-const connection = require('./connection');
+const Connection = require('./connection');
+
+const db = new Connection();
 
 class Control{
 
-    constructor(){
-        connection.connect((err) => {
-            if(err) reject(err);
-            console.log('Conexão estabelecida com sucesso!');
-        });
-    }
-
-    login(userEmail, userPassword){
+    async login(userEmail, userPassword){
         return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM user WHERE userEmail = ? AND userPassword = ?";
-            connection.query(sql, [userEmail, userPassword], (err, results, fields) => {
+            db.connection.query(sql, [userEmail, userPassword], (err, results, fields) => {
                 if(err) reject(err);
                 if(results.length > 0){
                     resolve(true);
@@ -30,7 +25,7 @@ class Control{
             .then((result) => {
                 if(result){
                     let sql = "INSERT INTO user (userName, userEmail, userPassword) VALUES (?, ?, ?)";
-                    connection.execute(sql, [userName, userEmail, userPassword], (err) => {
+                    db.connection.execute(sql, [userName, userEmail, userPassword], (err) => {
                         if(err) reject(err);
                         else{
                             resolve(true);
@@ -49,7 +44,7 @@ class Control{
     checkAvailability(userEmail){
         return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM user WHERE userEmail = ?";
-            connection.query(sql, [userEmail], (err, results, fields) => {
+            db.connection.query(sql, [userEmail], (err, results, fields) => {
                 if(err) reject(err);
                 if(results.length > 0){
                     resolve(false);

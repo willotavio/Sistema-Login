@@ -44,7 +44,7 @@ app.post('/login', async (req, res) => {
             }
         })
         .catch((err) => {
-            console.log("erro");
+            console.log(err);
         })
 })
 
